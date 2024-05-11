@@ -4,8 +4,19 @@ export function cube(size: number, material: Three.Material): Three.Object3D {
     return create(material, Three.BoxGeometry, size, size, size);
 }
 
-export function plane(size: number, material: Three.Material): Three.Object3D {
-    const plane = create(material, Three.PlaneGeometry, size, size);
+export function plane(
+    size: number,
+    material: Three.Material,
+    segments?: number
+): Three.Object3D {
+    const plane = create(
+        material,
+        Three.PlaneGeometry,
+        size,
+        size,
+        segments,
+        segments
+    );
     plane.rotation.x = -Math.PI / 2;
 
     return plane;
