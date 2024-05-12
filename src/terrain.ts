@@ -12,6 +12,7 @@ export function build_terrain(scene: Three.Scene) {
         displacementMap: heightMap,
         normalMap: normalMap,
         displacementScale: 200,
+        shininess: 15,
     });
 
     const terrain = P.plane(1024, groundMaterial, 256);
@@ -22,6 +23,7 @@ export function build_terrain(scene: Three.Scene) {
 
     const waterMaterial = new Three.MeshPhongMaterial({
         color: 0x88e1ff,
+        specular: "silver",
         shininess: 100,
     });
 

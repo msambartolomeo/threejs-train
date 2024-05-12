@@ -26,7 +26,7 @@ export function train_path(): Three.CurvePath<Three.Vector3> {
         [
             // NOTE: Line
             new Three.Vector3(-220, 0, -250),
-            new Three.Vector3(0, 0, -250),
+            new Three.Vector3(-100, 0, -250),
             new Three.Vector3(200, 0, -250),
             new Three.Vector3(230, 0, -250),
         ],
@@ -47,8 +47,8 @@ export function train_path(): Three.CurvePath<Three.Vector3> {
         [
             // NOTE: Curve
             new Three.Vector3(330, 0, -80),
-            new Three.Vector3(330, 0, 0),
-            new Three.Vector3(400, 0, 0),
+            new Three.Vector3(330, 0, 10),
+            new Three.Vector3(400, 0, -10),
             new Three.Vector3(400, 0, 80),
         ],
         [
@@ -75,8 +75,8 @@ export function train_path(): Three.CurvePath<Three.Vector3> {
         [
             // NOTE: Curve
             new Three.Vector3(100, 0, 250),
-            new Three.Vector3(0, 0, 250),
-            new Three.Vector3(0, 0, 100),
+            new Three.Vector3(-10, 0, 250),
+            new Three.Vector3(10, 0, 100),
             new Three.Vector3(-100, 0, 100),
         ],
         [

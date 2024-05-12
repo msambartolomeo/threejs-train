@@ -2,7 +2,7 @@ import * as Three from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { build_terrain } from "./terrain";
 import { train_path } from "./train/path";
-import { createRail } from "./train/rail";
+import { createRailway } from "./train/rail";
 
 function main() {
     const camera = new Three.PerspectiveCamera(
@@ -12,7 +12,7 @@ function main() {
         1000
     );
 
-    camera.position.set(500, 200, 0);
+    camera.position.set(0, 400, 0);
 
     const renderer = new Three.WebGLRenderer();
     renderer.setClearColor(0xa8bbe6, 1.0);
@@ -23,17 +23,20 @@ function main() {
 
     const scene = new Three.Scene();
 
-    const ambientLight = new Three.AmbientLight("#ffffff", 1);
-    const directionaLight = new Three.DirectionalLight("#ffffff", 2);
-    directionaLight.position.set(1000, 1000, 1000);
-    scene.add(directionaLight);
+    const ambientLight = new Three.AmbientLight("white", 0.5);
     scene.add(ambientLight);
+
+    const directionaLight = new Three.DirectionalLight("white", 2);
+    directionaLight.position.set(0, 1, 0);
+    directionaLight.target.position.set(2, 0, 2);
+    scene.add(directionaLight.target);
+    scene.add(directionaLight);
 
     build_terrain(scene);
 
     const path = train_path();
 
-    createRail(scene, path);
+    createRailway(scene, path);
 
     function render() {
         renderer.render(scene, camera);
