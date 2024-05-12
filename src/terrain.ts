@@ -26,7 +26,7 @@ export function build_terrain(scene: Three.Scene) {
     });
 
     const water = P.plane(1024, waterMaterial);
-    water.position.setY(30);
+    water.position.setY(25);
 
     scene.add(water);
 }

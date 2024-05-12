@@ -1,6 +1,8 @@
 import * as Three from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { build_terrain } from "./terrain";
+import { train_path } from "./train/path";
+import { createRail } from "./train/rail";
 
 function main() {
     const camera = new Three.PerspectiveCamera(
@@ -22,14 +24,16 @@ function main() {
     const scene = new Three.Scene();
 
     const ambientLight = new Three.AmbientLight("#ffffff", 1);
-    ambientLight.castShadow = true;
     const directionaLight = new Three.DirectionalLight("#ffffff", 2);
-    directionaLight.castShadow = true;
     directionaLight.position.set(1000, 1000, 1000);
     scene.add(directionaLight);
     scene.add(ambientLight);
 
     build_terrain(scene);
+
+    const path = train_path();
+
+    createRail(scene, path);
 
     function render() {
         renderer.render(scene, camera);
