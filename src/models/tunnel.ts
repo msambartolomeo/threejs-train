@@ -21,5 +21,5 @@ export function createTunnel(): Three.Object3D {
         bevelEnabled: false,
     });
 
-    return new Three.Mesh(geometry, M.WOOD_MATERIAL);
+    return new Three.Mesh(geometry, M.WOOD);
 }

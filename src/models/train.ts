@@ -8,20 +8,20 @@ const TRAIN_SPEED = 20;
 export function createTrain(): Three.Object3D {
     const train = new Three.Object3D();
 
-    const body = P.cylinder(3, 10, M.TRAIN_MATERIAL);
+    const body = P.cylinder(3, 10, M.TRAIN);
     body.rotation.z = Math.PI / 2;
     train.add(body);
 
-    const front = P.cylinder(4, 1.5, M.TRAIN_MATERIAL);
+    const front = P.cylinder(4, 1.5, M.TRAIN);
     front.rotation.z = Math.PI / 2;
     front.position.x = -5.5;
     train.add(front);
 
-    const bottomCover = P.box(12, 0.25, 7, M.TRAIN_MATERIAL);
+    const bottomCover = P.box(12, 0.25, 7, M.TRAIN);
     bottomCover.position.set(-0.25, -3, 0);
     train.add(bottomCover);
 
-    const chimney = P.cylinder(0.5, 3, M.TRAIN_MATERIAL);
+    const chimney = P.cylinder(0.5, 3, M.TRAIN);
     chimney.position.set(-5.5, 5, 0);
     train.add(chimney);
 
@@ -37,7 +37,7 @@ export function createTrain(): Three.Object3D {
     wheels2.position.set(1, -4, 2);
     train.add(wheels2);
 
-    const bottom = P.box(10, 1.25, 2.5, M.METAL_MATERIAL);
+    const bottom = P.box(10, 1.25, 2.5, M.METAL);
     bottom.position.set(0, -3.75, 0);
     train.add(bottom);
 
@@ -75,19 +75,19 @@ export function startTrainOnPath(
 function createCabin(): Three.Object3D {
     const cabin = new Three.Object3D();
 
-    const bottom = P.box(5, 3, 7, M.TRAIN_MATERIAL);
+    const bottom = P.box(5, 3, 7, M.TRAIN);
     bottom.position.setY(-3);
     cabin.add(bottom);
 
-    const rightSide = P.box(4, 6, 0.25, M.TRAIN_MATERIAL);
+    const rightSide = P.box(4, 6, 0.25, M.TRAIN);
     rightSide.position.set(-1, 0, -2.5);
     const leftSide = rightSide.clone();
     leftSide.position.set(-1, 0, 2.5);
-    const frontSide = P.box(0.25, 6, 5, M.TRAIN_MATERIAL);
+    const frontSide = P.box(0.25, 6, 5, M.TRAIN);
     frontSide.position.set(-3, 0, 0);
     cabin.add(rightSide, leftSide, frontSide);
 
-    const bar1 = P.box(0.25, 10.5, 0.25, M.TRAIN_MATERIAL);
+    const bar1 = P.box(0.25, 10.5, 0.25, M.TRAIN);
     const bar2 = bar1.clone();
     const bar3 = bar1.clone();
     const bar4 = bar1.clone();
@@ -123,7 +123,7 @@ function createRoof(): Three.Object3D {
         bevelEnabled: false,
     });
 
-    const plasticRoof = new Three.Mesh(plasticRoofGeometry, M.PLASTIC_MATERIAL);
+    const plasticRoof = new Three.Mesh(plasticRoofGeometry, M.PLASTIC);
 
     const metalRoofShape = new Three.Shape();
 
@@ -134,7 +134,7 @@ function createRoof(): Three.Object3D {
         bevelEnabled: false,
     });
 
-    const metalRoof = new Three.Mesh(metalroofGeometry, M.TRAIN_MATERIAL);
+    const metalRoof = new Three.Mesh(metalroofGeometry, M.TRAIN);
 
     metalRoof.position.setZ(0.25);
 
@@ -159,12 +159,12 @@ function createWheels(side: number): Three.Object3D {
     animations.add(wheel3, TRAIN_SPEED, rotateWheel);
     wheels.add(wheel1, wheel2, wheel3);
 
-    const piston = P.cylinder(0.8, 2.5, M.RUBBER_MATERIAL);
+    const piston = P.cylinder(0.8, 2.5, M.RUBBER);
     piston.rotation.z = Math.PI / 2;
     piston.position.set(-5.5, 0, side * -0.2);
     wheels.add(piston);
 
-    const bar = P.box(8, 0.25, 0.25, M.METAL_MATERIAL);
+    const bar = P.box(8, 0.25, 0.25, M.METAL);
     bar.position.x = -1;
     const wrapper = new Three.Object3D();
     wrapper.add(bar);
@@ -177,15 +177,15 @@ function createWheels(side: number): Three.Object3D {
 const WHEEL_RADIUS = 1;
 
 function createWheel(side: number): Three.Object3D {
-    const wheel = P.cylinder(WHEEL_RADIUS, 0.25, M.RUBBER_MATERIAL);
+    const wheel = P.cylinder(WHEEL_RADIUS, 0.25, M.RUBBER);
     wheel.rotation.x = Math.PI / 2;
 
-    const bolt1 = P.polygon(0.1, 0.2, 6, M.METAL_MATERIAL);
-    const bolt2 = P.polygon(0.1, 0.2, 6, M.METAL_MATERIAL);
-    const bolt3 = P.polygon(0.1, 0.2, 6, M.METAL_MATERIAL);
-    const bolt4 = P.polygon(0.1, 0.2, 6, M.METAL_MATERIAL);
-    const bolt5 = P.polygon(0.1, 0.2, 6, M.METAL_MATERIAL);
-    const bolt6 = P.polygon(0.1, 0.2, 6, M.METAL_MATERIAL);
+    const bolt1 = P.polygon(0.1, 0.2, 6, M.METAL);
+    const bolt2 = P.polygon(0.1, 0.2, 6, M.METAL);
+    const bolt3 = P.polygon(0.1, 0.2, 6, M.METAL);
+    const bolt4 = P.polygon(0.1, 0.2, 6, M.METAL);
+    const bolt5 = P.polygon(0.1, 0.2, 6, M.METAL);
+    const bolt6 = P.polygon(0.1, 0.2, 6, M.METAL);
 
     bolt1.position.set(0, side * -0.15, 0.7);
     bolt2.position.set(0.6, side * -0.15, 0.35);

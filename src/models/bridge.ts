@@ -87,7 +87,7 @@ function createSection(last: boolean): Three.Object3D {
 }
 
 function createBeam(length: number): Three.Object3D {
-    const beam = P.box(0.5, length, 0.5, M.METAL_MATERIAL);
+    const beam = P.box(0.5, length, 0.5, M.METAL);
     beam.rotation.y = Math.PI / 4;
     return new Three.Object3D().add(beam);
 }
@@ -112,7 +112,7 @@ function createSupport(): Three.Object3D {
         bevelEnabled: false,
     });
 
-    const support = new Three.Mesh(geometry, M.BRICK_MATERIAL);
+    const support = new Three.Mesh(geometry, M.BRICK);
     support.position.setZ(-D / 2);
     return support;
 }

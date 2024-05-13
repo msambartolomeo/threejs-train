@@ -1,4 +1,5 @@
 import * as Three from "three";
+import * as M from "../materials";
 
 export function createRailway(
     path: Three.CurvePath<Three.Vector3>
@@ -45,13 +46,7 @@ function createRail(
         extrudePath: path,
     });
 
-    return new Three.Mesh(
-        geometry,
-        new Three.MeshPhongMaterial({
-            color: "silver",
-            shininess: 300,
-        })
-    );
+    return new Three.Mesh(geometry, M.METAL);
 }
 
 function createEarthwork(path: Three.CurvePath<Three.Vector3>): Three.Object3D {
@@ -70,11 +65,5 @@ function createEarthwork(path: Three.CurvePath<Three.Vector3>): Three.Object3D {
         extrudePath: path,
     });
 
-    return new Three.Mesh(
-        geometry,
-        new Three.MeshPhongMaterial({
-            color: 0x665647,
-            shininess: 15,
-        })
-    );
+    return new Three.Mesh(geometry, M.GROUND);
 }
