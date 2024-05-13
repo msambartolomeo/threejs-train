@@ -5,6 +5,7 @@ import { trainPath } from "./path";
 import { createRailway } from "./models/rail";
 import { createTrain, startTrainOnPath } from "./models/train";
 import { createTunnel } from "./models/tunnel";
+import { createBridge } from "./models/bridge";
 import Animations from "./animation";
 
 function init(): readonly [Three.Camera, Three.WebGLRenderer, Three.Scene] {
@@ -65,7 +66,16 @@ function main() {
     tunnel.position.setY(46);
     scene.add(tunnel);
 
+    const bridge = createBridge(17);
+    bridge.position.copy(path.getPointAt(0.74));
+    bridge.position.setY(46);
+    scene.add(bridge);
+
     const animations = Animations.getInstance();
+
+    const point = path.getPointAt(0.76);
+    camera.position.set(point.x + 50, 70, point.z + 50);
+    controls.target.set(point.x, 46, point.z);
 
     const time = new Three.Clock();
 

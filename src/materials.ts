@@ -17,10 +17,15 @@ export const RUBBER_MATERIAL = new Three.MeshPhongMaterial({
 
 export const METAL_MATERIAL = new Three.MeshPhongMaterial({
     color: "silver",
-    shininess: 300,
+    shininess: 400,
 });
 
 export const WOOD_MATERIAL = new Three.MeshPhongMaterial({
     color: 0x493a24,
     shininess: 10,
+});
+
+export const BRICK_MATERIAL = new Three.MeshPhongMaterial({
+    color: 0x945d43,
+    shininess: 50,
 });
