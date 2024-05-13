@@ -56,6 +56,22 @@ export function cylinder(
     return create(material, Three.CylinderGeometry, radius, radius, height);
 }
 
+export function polygon(
+    radius: number,
+    height: number,
+    sides: number,
+    material: Three.Material
+): Three.Object3D {
+    return create(
+        material,
+        Three.CylinderGeometry,
+        radius,
+        radius,
+        height,
+        sides
+    );
+}
+
 export function cone(
     radius: number,
     height: number,

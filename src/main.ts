@@ -1,8 +1,9 @@
 import * as Three from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { build_terrain } from "./terrain";
-import { train_path } from "./train/path";
+import { trainPath } from "./train/path";
 import { createRailway } from "./train/rail";
+import { createTrain } from "./train/train";
 
 function main() {
     const camera = new Three.PerspectiveCamera(
@@ -34,9 +35,18 @@ function main() {
 
     build_terrain(scene);
 
-    const path = train_path();
+    const path = trainPath();
+    const railway = createRailway(path);
 
-    createRailway(scene, path);
+    railway.position.setY(37);
+    scene.add(railway);
+
+    const train = createTrain();
+    const start = path.getPoint(0);
+    train.position.set(start.x, 48, start.z);
+    scene.add(train);
+    camera.position.set(start.x + 15, 54, start.z - 15);
+    controls.target.copy(train.position);
 
     function render() {
         renderer.render(scene, camera);

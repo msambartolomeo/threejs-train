@@ -1,24 +1,26 @@
 import * as Three from "three";
 
 export function createRailway(
-    scene: Three.Scene,
     path: Three.CurvePath<Three.Vector3>
-) {
+): Three.Object3D {
+    const railway = new Three.Object3D();
+
     const rail1 = createRail(path, 1.5);
     const rail2 = createRail(path, -1.5);
-    rail1.position.setY(41);
-    rail2.position.setY(41);
     const earthwork = createEarthwork(path);
-    earthwork.position.setY(37);
-    scene.add(earthwork);
-    scene.add(rail1);
-    scene.add(rail2);
+
+    rail1.position.setY(4);
+    rail2.position.setY(4);
+
+    railway.add(earthwork, rail1, rail2);
+
+    return railway;
 }
 
 function createRail(
     path: Three.CurvePath<Three.Vector3>,
     offset: number
-): Three.Mesh {
+): Three.Object3D {
     const railShape = new Three.Shape();
 
     const sign = Math.sign(offset);
@@ -52,7 +54,7 @@ function createRail(
     );
 }
 
-function createEarthwork(path: Three.CurvePath<Three.Vector3>): Three.Mesh {
+function createEarthwork(path: Three.CurvePath<Three.Vector3>): Three.Object3D {
     const earthworkShape = new Three.Shape();
 
     earthworkShape.moveTo(0, -10);

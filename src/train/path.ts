@@ -1,6 +1,6 @@
 import * as Three from "three";
 
-export function train_path(): Three.CurvePath<Three.Vector3> {
+export function trainPath(): Three.CurvePath<Three.Vector3> {
     const bazierCurves = [
         [
             // NOTE: Curve
