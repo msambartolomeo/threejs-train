@@ -1,5 +1,7 @@
 import * as Three from "three";
 import * as P from "./primitives";
+import * as M from "./materials";
+import Animations from "./animation";
 
 export function build_terrain(scene: Three.Scene) {
     const loader = new Three.TextureLoader().setPath("images/maps/terrain/");
@@ -22,13 +24,26 @@ export function build_terrain(scene: Three.Scene) {
     scene.add(terrain);
 
     const waterMaterial = new Three.MeshPhongMaterial({
+        displacementMap: heightMap,
+        // normalMap: normalMap,
         color: 0x88e1ff,
         specular: "silver",
         shininess: 100,
     });
 
+    let tide = 1;
+
+    function animateWater(_: Three.Object3D, speed: number, delta: number) {
+        waterMaterial.displacementScale += tide * speed * delta;
+        if (Math.abs(waterMaterial.displacementScale) > 20) {
+            tide *= -1;
+        }
+    }
+
     const water = P.plane(1024, waterMaterial);
     water.position.setY(25);
+
+    Animations.getInstance().add(water, 2, animateWater);
 
     scene.add(water);
 }
