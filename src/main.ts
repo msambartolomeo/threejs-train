@@ -1,12 +1,12 @@
 import * as Three from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { build_terrain } from "./terrain";
-import { trainPath } from "./train/path";
-import { createRailway } from "./train/rail";
-import { createTrain } from "./train/train";
+import { trainPath } from "./path";
+import { createRailway } from "./rail";
+import { createTrain, startTrainOnPath } from "./train";
 import Animations from "./animation";
 
-function main() {
+function init(): readonly [Three.Camera, Three.WebGLRenderer, Three.Scene] {
     const camera = new Three.PerspectiveCamera(
         80,
         window.innerWidth / window.innerHeight,
@@ -14,22 +14,23 @@ function main() {
         1000
     );
 
-    camera.position.set(0, 400, 0);
-
-    const renderer = new Three.WebGLRenderer();
-    renderer.setClearColor(0xa8bbe6, 1.0);
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    document.body.appendChild(renderer.domElement);
-
     window.addEventListener("resize", () => {
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
         renderer.setSize(window.innerWidth, window.innerHeight);
     });
 
-    const controls = new OrbitControls(camera, renderer.domElement);
+    const renderer = new Three.WebGLRenderer();
+    renderer.setClearColor(0xa8bbe6, 1.0);
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
 
     const scene = new Three.Scene();
+
+    // TODO: Cleanup
+    camera.position.set(0, 400, 0);
+
+    build_terrain(scene);
 
     const ambientLight = new Three.AmbientLight("white", 0.5);
     scene.add(ambientLight);
@@ -40,20 +41,23 @@ function main() {
     scene.add(directionaLight.target);
     scene.add(directionaLight);
 
-    build_terrain(scene);
+    return [camera, renderer, scene];
+}
+
+function main() {
+    const [camera, renderer, scene] = init();
+
+    const controls = new OrbitControls(camera, renderer.domElement);
 
     const path = trainPath();
-    const railway = createRailway(path);
 
+    const railway = createRailway(path);
     railway.position.setY(37);
     scene.add(railway);
 
     const train = createTrain();
-    const start = path.getPointAt(0);
-    train.position.set(start.x, 47, start.z);
     scene.add(train);
-    camera.position.set(start.x + 15, 54, start.z - 15);
-    controls.target.copy(train.position);
+    startTrainOnPath(train, path);
 
     const animations = Animations.getInstance();
 

@@ -1,9 +1,9 @@
 import * as Three from "three";
-import * as P from "../primitives";
-import * as M from "../materials";
-import Animations from "../animation";
+import * as P from "./primitives";
+import * as M from "./materials";
+import Animations from "./animation";
 
-const TRAIN_SPEED = 3;
+const TRAIN_SPEED = 20;
 
 export function createTrain(): Three.Object3D {
     const train = new Three.Object3D();
@@ -42,6 +42,34 @@ export function createTrain(): Three.Object3D {
     train.add(bottom);
 
     return train;
+}
+
+export function startTrainOnPath(
+    train: Three.Object3D,
+    path: Three.CurvePath<Three.Vector3>
+) {
+    let distance = 0;
+
+    function moveTrain(train: Three.Object3D, speed: number, delta: number) {
+        const maxLength = path.getLength();
+
+        if (distance > maxLength) {
+            distance -= maxLength;
+        }
+
+        const point = path.getPoint(distance / maxLength);
+        const tangent = path.getTangent(distance / maxLength);
+        const rotation = Math.atan2(tangent.x, tangent.z);
+
+        train.position.set(point.x, 47, point.z);
+        train.rotation.y = rotation + Math.PI / 2;
+
+        distance += speed * delta;
+    }
+
+    const animations = Animations.getInstance();
+
+    animations.add(train, TRAIN_SPEED, moveTrain);
 }
 
 function createCabin(): Three.Object3D {
