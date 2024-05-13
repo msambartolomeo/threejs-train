@@ -2,8 +2,9 @@ import * as Three from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { build_terrain } from "./terrain";
 import { trainPath } from "./path";
-import { createRailway } from "./rail";
-import { createTrain, startTrainOnPath } from "./train";
+import { createRailway } from "./models/rail";
+import { createTrain, startTrainOnPath } from "./models/train";
+import { createTunnel } from "./models/tunnel";
 import Animations from "./animation";
 
 function init(): readonly [Three.Camera, Three.WebGLRenderer, Three.Scene] {
@@ -58,6 +59,11 @@ function main() {
     const train = createTrain();
     scene.add(train);
     startTrainOnPath(train, path);
+
+    const tunnel = createTunnel();
+    tunnel.position.copy(path.getPointAt(0.125));
+    tunnel.position.setY(46);
+    scene.add(tunnel);
 
     const animations = Animations.getInstance();
 

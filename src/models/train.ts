@@ -1,7 +1,7 @@
 import * as Three from "three";
-import * as P from "./primitives";
-import * as M from "./materials";
-import Animations from "./animation";
+import * as P from "../primitives";
+import * as M from "../materials";
+import Animations from "../animation";
 
 const TRAIN_SPEED = 20;
 
