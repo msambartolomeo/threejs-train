@@ -1,6 +1,9 @@
 import * as Three from "three";
 import * as P from "../primitives";
 import * as M from "../materials";
+import Animations from "../animation";
+
+const TRAIN_SPEED = 3;
 
 export function createTrain(): Three.Object3D {
     const train = new Three.Object3D();
@@ -14,9 +17,9 @@ export function createTrain(): Three.Object3D {
     front.position.x = -5.5;
     train.add(front);
 
-    const bottom = P.box(12, 0.25, 7, M.TRAIN_MATERIAL);
-    bottom.position.set(-0.25, -3, 0);
-    train.add(bottom);
+    const bottomCover = P.box(12, 0.25, 7, M.TRAIN_MATERIAL);
+    bottomCover.position.set(-0.25, -3, 0);
+    train.add(bottomCover);
 
     const chimney = P.cylinder(0.5, 3, M.TRAIN_MATERIAL);
     chimney.position.set(-5.5, 5, 0);
@@ -26,13 +29,25 @@ export function createTrain(): Three.Object3D {
     cabin.position.setX(8);
     train.add(cabin);
 
+    const wheels1 = createWheels(1);
+    wheels1.position.set(1, -4, -2);
+    train.add(wheels1);
+
+    const wheels2 = createWheels(-1);
+    wheels2.position.set(1, -4, 2);
+    train.add(wheels2);
+
+    const bottom = P.box(10, 1.25, 2.5, M.METAL_MATERIAL);
+    bottom.position.set(0, -3.75, 0);
+    train.add(bottom);
+
     return train;
 }
 
 function createCabin(): Three.Object3D {
     const cabin = new Three.Object3D();
 
-    const bottom = P.box(5, 3.5, 7, M.TRAIN_MATERIAL);
+    const bottom = P.box(5, 3, 7, M.TRAIN_MATERIAL);
     bottom.position.setY(-3);
     cabin.add(bottom);
 
@@ -98,4 +113,72 @@ function createRoof(): Three.Object3D {
     roof.add(plasticRoof, metalRoof);
 
     return roof;
+}
+
+function createWheels(side: number): Three.Object3D {
+    const wheels = new Three.Object3D();
+
+    const animations = Animations.getInstance();
+
+    const wheel1 = createWheel(side);
+    const wheel2 = createWheel(side);
+    wheel2.position.setX(2.5);
+    const wheel3 = createWheel(side);
+    wheel3.position.setX(-2.5);
+
+    animations.add(wheel1, TRAIN_SPEED, rotateWheel);
+    animations.add(wheel2, TRAIN_SPEED, rotateWheel);
+    animations.add(wheel3, TRAIN_SPEED, rotateWheel);
+    wheels.add(wheel1, wheel2, wheel3);
+
+    const piston = P.cylinder(0.8, 2.5, M.RUBBER_MATERIAL);
+    piston.rotation.z = Math.PI / 2;
+    piston.position.set(-5.5, 0, side * -0.2);
+    wheels.add(piston);
+
+    const bar = P.box(8, 0.25, 0.25, M.METAL_MATERIAL);
+    bar.position.x = -1;
+    const wrapper = new Three.Object3D();
+    wrapper.add(bar);
+    animations.add(wrapper, TRAIN_SPEED, rotateBar);
+    wheel1.children[0].add(wrapper);
+
+    return wheels;
+}
+
+const WHEEL_RADIUS = 1;
+
+function createWheel(side: number): Three.Object3D {
+    const wheel = P.cylinder(WHEEL_RADIUS, 0.25, M.RUBBER_MATERIAL);
+    wheel.rotation.x = Math.PI / 2;
+
+    const bolt1 = P.polygon(0.1, 0.2, 6, M.METAL_MATERIAL);
+    const bolt2 = P.polygon(0.1, 0.2, 6, M.METAL_MATERIAL);
+    const bolt3 = P.polygon(0.1, 0.2, 6, M.METAL_MATERIAL);
+    const bolt4 = P.polygon(0.1, 0.2, 6, M.METAL_MATERIAL);
+    const bolt5 = P.polygon(0.1, 0.2, 6, M.METAL_MATERIAL);
+    const bolt6 = P.polygon(0.1, 0.2, 6, M.METAL_MATERIAL);
+
+    bolt1.position.set(0, side * -0.15, 0.7);
+    bolt2.position.set(0.6, side * -0.15, 0.35);
+    bolt3.position.set(-0.6, side * -0.15, 0.35);
+    bolt4.position.set(0, side * -0.15, -0.7);
+    bolt5.position.set(0.6, side * -0.15, -0.35);
+    bolt6.position.set(-0.6, side * -0.15, -0.35);
+
+    wheel.add(bolt1, bolt2, bolt3, bolt4, bolt5, bolt6);
+
+    return wheel;
+}
+
+function rotateWheel(wheel: Three.Object3D, speed: number, delta: number) {
+    const angular_velocity = speed / WHEEL_RADIUS;
+
+    wheel.rotateY(angular_velocity * delta);
+}
+
+function rotateBar(bar: Three.Object3D, speed: number, delta: number) {
+    const angular_velocity = -speed / WHEEL_RADIUS;
+
+    bar.rotateY(angular_velocity * delta);
 }

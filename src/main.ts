@@ -4,6 +4,7 @@ import { build_terrain } from "./terrain";
 import { trainPath } from "./train/path";
 import { createRailway } from "./train/rail";
 import { createTrain } from "./train/train";
+import Animations from "./animation";
 
 function main() {
     const camera = new Three.PerspectiveCamera(
@@ -19,6 +20,12 @@ function main() {
     renderer.setClearColor(0xa8bbe6, 1.0);
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
+
+    window.addEventListener("resize", () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    });
 
     const controls = new OrbitControls(camera, renderer.domElement);
 
@@ -42,16 +49,22 @@ function main() {
     scene.add(railway);
 
     const train = createTrain();
-    const start = path.getPoint(0);
-    train.position.set(start.x, 48, start.z);
+    const start = path.getPointAt(0);
+    train.position.set(start.x, 47, start.z);
     scene.add(train);
     camera.position.set(start.x + 15, 54, start.z - 15);
     controls.target.copy(train.position);
+
+    const animations = Animations.getInstance();
+
+    const time = new Three.Clock();
 
     function render() {
         renderer.render(scene, camera);
 
         controls.update();
+
+        animations.run(time.getDelta());
 
         requestAnimationFrame(render);
     }
