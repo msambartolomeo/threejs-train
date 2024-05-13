@@ -30,10 +30,20 @@ export const WOOD = new Three.MeshPhongMaterial({
     shininess: 10,
 });
 
-export const LEAVES = new Three.MeshPhongMaterial({
-    color: "green",
-    shininess: 10,
-});
+export const LEAVES = [
+    new Three.MeshPhongMaterial({
+        color: 0x448912,
+        shininess: 50,
+    }),
+    new Three.MeshPhongMaterial({
+        color: "green",
+        shininess: 10,
+    }),
+    new Three.MeshPhongMaterial({
+        color: 0xc2dc1e,
+        shininess: 100,
+    }),
+];
 
 export const BRICK = new Three.MeshPhongMaterial({
     color: 0x945d43,

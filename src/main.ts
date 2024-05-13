@@ -6,7 +6,7 @@ import { createRailway } from "./models/rail";
 import { createTrain, startTrainOnPath } from "./models/train";
 import { createTunnel } from "./models/tunnel";
 import { createBridge } from "./models/bridge";
-import { createTree } from "./models/tree";
+import { treePatch } from "./models/tree";
 import Animations from "./animation";
 
 function init(): readonly [Three.Camera, Three.WebGLRenderer, Three.Scene] {
@@ -78,9 +78,11 @@ function main() {
     camera.position.set(point.x + 50, 70, point.z + 50);
     controls.target.set(point.x, 46, point.z);
 
-    const tree = createTree(4);
-    tree.position.set(point.x, 70, point.z);
-    scene.add(tree);
+    const trees1 = treePatch(new Three.Vector3(366, 37, -115), 12);
+    const trees2 = treePatch(new Three.Vector3(368, 37, -11), 11);
+    const trees3 = treePatch(new Three.Vector3(445, 37, 102), 8);
+    const trees4 = treePatch(new Three.Vector3(401, 37, 400), 20);
+    scene.add(trees1, trees2, trees3, trees4);
 
     const time = new Three.Clock();
 

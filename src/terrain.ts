@@ -1,6 +1,5 @@
 import * as Three from "three";
 import * as P from "./primitives";
-import * as M from "./materials";
 import Animations from "./animation";
 
 export function build_terrain(scene: Three.Scene) {
@@ -25,7 +24,6 @@ export function build_terrain(scene: Three.Scene) {
 
     const waterMaterial = new Three.MeshPhongMaterial({
         displacementMap: heightMap,
-        // normalMap: normalMap,
         color: 0x88e1ff,
         specular: "silver",
         shininess: 100,
