@@ -3,7 +3,7 @@ import * as P from "../primitives";
 import * as M from "../materials";
 
 export function createTree(size: number, material: number): Three.Object3D {
-    const tree = new Three.Object3D();
+    const tree = P.empty();
 
     const log = P.cone(1, 10, M.WOOD);
     log.position.y = 4;
@@ -27,7 +27,7 @@ export function treePatch(
     position: Three.Vector3,
     size: number
 ): Three.Object3D {
-    const trees = new Three.Object3D();
+    const trees = P.empty();
     trees.position.copy(position);
 
     for (let i = 1; i <= size; i++) {

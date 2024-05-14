@@ -7,7 +7,7 @@ const VERTICAL_LENGTH = 24;
 const SEPARATION_LENGT = 20;
 
 export function createBridge(size: number): Three.Object3D {
-    const bridge = new Three.Object3D();
+    const bridge = P.empty();
 
     for (let i = 0; i < size - 1; i++) {
         const section = createSection(false);
@@ -23,9 +23,9 @@ export function createBridge(size: number): Three.Object3D {
 }
 
 function createSection(last: boolean): Three.Object3D {
-    const section = new Three.Object3D();
+    const section = P.empty();
 
-    const left = new Three.Object3D();
+    const left = P.empty();
     left.position.setZ(10);
 
     const support = createSupport();
@@ -35,7 +35,7 @@ function createSection(last: boolean): Three.Object3D {
     const sideBeam = createBeam(VERTICAL_LENGTH);
     left.add(sideBeam);
 
-    const top = new Three.Object3D();
+    const top = P.empty();
     top.position.setY(VERTICAL_LENGTH / 2);
     top.rotation.x = Math.PI / 2;
 
@@ -89,7 +89,7 @@ function createSection(last: boolean): Three.Object3D {
 function createBeam(length: number): Three.Object3D {
     const beam = P.box(0.5, length, 0.5, M.METAL);
     beam.rotation.y = Math.PI / 4;
-    return new Three.Object3D().add(beam);
+    return P.empty().add(beam);
 }
 
 function createSupport(): Three.Object3D {

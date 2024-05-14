@@ -6,7 +6,7 @@ import Animations from "../animation";
 const TRAIN_SPEED = 20;
 
 export function createTrain(): Three.Object3D {
-    const train = new Three.Object3D();
+    const train = P.empty();
 
     const body = P.cylinder(3, 10, M.TRAIN);
     body.rotation.z = Math.PI / 2;
@@ -41,6 +41,10 @@ export function createTrain(): Three.Object3D {
     bottom.position.set(0, -3.75, 0);
     train.add(bottom);
 
+    const light = createLight();
+    light.position.setX(-6.25);
+    train.add(light);
+
     return train;
 }
 
@@ -73,7 +77,7 @@ export function startTrainOnPath(
 }
 
 function createCabin(): Three.Object3D {
-    const cabin = new Three.Object3D();
+    const cabin = P.empty();
 
     const bottom = P.box(5, 3, 7, M.TRAIN);
     bottom.position.setY(-3);
@@ -105,7 +109,7 @@ function createCabin(): Three.Object3D {
 }
 
 function createRoof(): Three.Object3D {
-    const roof = new Three.Object3D();
+    const roof = P.empty();
     roof.rotation.y = Math.PI / 2;
 
     const plasticRoofShape = new Three.Shape();
@@ -144,7 +148,7 @@ function createRoof(): Three.Object3D {
 }
 
 function createWheels(side: number): Three.Object3D {
-    const wheels = new Three.Object3D();
+    const wheels = P.empty();
 
     const animations = Animations.getInstance();
 
@@ -166,7 +170,7 @@ function createWheels(side: number): Three.Object3D {
 
     const bar = P.box(8, 0.25, 0.25, M.METAL);
     bar.position.x = -1;
-    const wrapper = new Three.Object3D();
+    const wrapper = P.empty();
     wrapper.add(bar);
     animations.add(wrapper, TRAIN_SPEED, rotateBar);
     wheel1.children[0].add(wrapper);
@@ -197,6 +201,24 @@ function createWheel(side: number): Three.Object3D {
     wheel.add(bolt1, bolt2, bolt3, bolt4, bolt5, bolt6);
 
     return wheel;
+}
+
+function createLight(): Three.Object3D {
+    const holder = P.empty();
+
+    const bulb = P.cylinder(1, 0.5, M.LIGHT_ON);
+    bulb.rotation.z = Math.PI / 2;
+    holder.add(bulb);
+
+    const target = P.empty();
+    target.position.setX(-2);
+    holder.add(target);
+
+    const light = new Three.SpotLight(0xfcf9d9, 10, 250, undefined, 1, 0.2);
+    light.target = target;
+    holder.add(light);
+
+    return holder;
 }
 
 function rotateWheel(wheel: Three.Object3D, speed: number, delta: number) {

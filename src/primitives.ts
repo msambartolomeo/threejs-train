@@ -1,5 +1,9 @@
 import * as Three from "three";
 
+export function empty(): Three.Object3D {
+    return new Three.Object3D();
+}
+
 export function cube(size: number, material: Three.Material): Three.Object3D {
     return create(material, Three.BoxGeometry, size, size, size);
 }

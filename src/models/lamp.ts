@@ -3,7 +3,7 @@ import * as P from "../primitives";
 import * as M from "../materials";
 
 export function createLamp(): Three.Object3D {
-    const lamp = new Three.Object3D();
+    const lamp = P.empty();
 
     const base = P.polygon(2, 8, 5, M.LAMP);
     base.position.setY(4);
