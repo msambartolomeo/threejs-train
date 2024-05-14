@@ -61,6 +61,12 @@ export const LIGHT_ON = new Three.MeshPhongMaterial({
     shininess: 10000,
 });
 
+export const SUN = new Three.MeshPhongMaterial({
+    emissive: 0xff9955,
+    color: 0xff9955,
+    shininess: 10000,
+});
+
 export const LIGHT_OFF = new Three.MeshPhongMaterial({
     color: 0x668186,
     transparent: true,

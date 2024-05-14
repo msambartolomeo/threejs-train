@@ -26,6 +26,8 @@ export function build_terrain(scene: Three.Scene) {
         displacementMap: heightMap,
         color: 0x88e1ff,
         specular: "silver",
+        transparent: true,
+        opacity: 0.9,
         shininess: 100,
     });
 

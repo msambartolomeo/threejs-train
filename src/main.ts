@@ -8,16 +8,22 @@ import { createTunnel } from "./models/tunnel";
 import { createBridge } from "./models/bridge";
 import { createLamp } from "./models/lamp";
 import { treePatch } from "./models/tree";
+import { createSun } from "./models/sun";
 import AnimationManager from "./managers/animation";
 import LightManager from "./managers/light";
 
 function init(): readonly [Three.Camera, Three.WebGLRenderer, Three.Scene] {
     const camera = new Three.PerspectiveCamera(
-        80,
+        60,
         window.innerWidth / window.innerHeight,
         0.1,
-        1000
+        2000
     );
+
+    const renderer = new Three.WebGLRenderer();
+    renderer.setClearColor(0xa8bbe6, 1.0);
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
 
     window.addEventListener("resize", () => {
         camera.aspect = window.innerWidth / window.innerHeight;
@@ -25,10 +31,13 @@ function init(): readonly [Three.Camera, Three.WebGLRenderer, Three.Scene] {
         renderer.setSize(window.innerWidth, window.innerHeight);
     });
 
-    const renderer = new Three.WebGLRenderer();
-    renderer.setClearColor(0xa8bbe6, 1.0);
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    document.body.appendChild(renderer.domElement);
+    const lightManager = LightManager.getInstance();
+
+    lightManager.add(
+        renderer,
+        (r) => r.setClearColor(0xa8bbe6, 1.0),
+        (r) => r.setClearColor(0x17181f, 1.0)
+    );
 
     const scene = new Three.Scene();
 
@@ -37,14 +46,21 @@ function init(): readonly [Three.Camera, Three.WebGLRenderer, Three.Scene] {
 
     build_terrain(scene);
 
-    // const ambientLight = new Three.AmbientLight("white", 0.5);
-    // scene.add(ambientLight);
+    const ambientDayLight = new Three.AmbientLight(0xffffe0);
+    scene.add(ambientDayLight);
+    lightManager.add(
+        ambientDayLight,
+        (l) => (l.intensity = 0.5),
+        (l) => (l.intensity = 0)
+    );
 
-    // const directionaLight = new Three.DirectionalLight("white", 2);
-    // directionaLight.position.set(0, 1, 0);
-    // directionaLight.target.position.set(2, 0, 2);
-    // scene.add(directionaLight.target);
-    // scene.add(directionaLight);
+    const ambientNightLight = new Three.AmbientLight(0x506886);
+    scene.add(ambientNightLight);
+    lightManager.add(
+        ambientNightLight,
+        (l) => (l.intensity = 0),
+        (l) => (l.intensity = 0.5)
+    );
 
     return [camera, renderer, scene];
 }
@@ -53,6 +69,9 @@ function main() {
     const [camera, renderer, scene] = init();
 
     const controls = new OrbitControls(camera, renderer.domElement);
+
+    const sun = createSun();
+    scene.add(sun);
 
     const path = trainPath();
 
@@ -78,11 +97,14 @@ function main() {
     camera.position.set(point.x, 50, point.z + 30);
     controls.target.set(point.x, 46, point.z);
 
-    const trees1 = treePatch(new Three.Vector3(366, 37, -115), 12);
-    const trees2 = treePatch(new Three.Vector3(368, 37, -11), 11);
-    const trees3 = treePatch(new Three.Vector3(445, 37, 102), 8);
-    const trees4 = treePatch(new Three.Vector3(401, 37, 400), 20);
-    scene.add(trees1, trees2, trees3, trees4);
+    const trees: Array<[Three.Vector3, number]> = [
+        [new Three.Vector3(366, 37, -115), 12],
+        [new Three.Vector3(368, 37, -11), 11],
+        [new Three.Vector3(445, 37, 102), 8],
+        [new Three.Vector3(401, 37, 400), 20],
+    ];
+
+    trees.forEach(([p, c]) => scene.add(treePatch(p, c)));
 
     const lamps = placeAlongPath(path, createLamp, 7);
     lamps.position.setY(38);

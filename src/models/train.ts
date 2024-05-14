@@ -221,19 +221,19 @@ function createLight(): Three.Object3D {
 
     const lightManager = LightManager.getInstance();
 
-    lightManager.add(bulb as Three.Mesh, light, turnOffLight, turnOnLight);
+    lightManager.add([bulb, light], turnOffLight, turnOnLight);
 
     return holder;
 }
 
-function turnOffLight(object: Three.Mesh, light: Three.Light) {
+function turnOffLight([bulb, light]: [Three.Mesh, Three.Light]) {
     light.intensity = 0;
-    object.material = M.LIGHT_OFF;
+    bulb.material = M.LIGHT_OFF;
 }
 
-function turnOnLight(object: Three.Mesh, light: Three.Light) {
+function turnOnLight([bulb, light]: [Three.Mesh, Three.Light]) {
     light.intensity = 10;
-    object.material = M.LIGHT_ON;
+    bulb.material = M.LIGHT_ON;
 }
 
 function rotateWheel(wheel: Three.Object3D, speed: number, delta: number) {

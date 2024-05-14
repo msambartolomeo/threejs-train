@@ -12,13 +12,12 @@ export default class LightManager {
     private constructor() {}
 
     add(
-        object: Three.Mesh,
-        light: Three.Light,
-        onDay: (object: Three.Mesh, light: Three.Light) => void,
-        onNight: (object: Three.Mesh, light: Three.Light) => void
+        object: any,
+        onDay: (object: any, light?: Three.Light) => void,
+        onNight: (object: any, light?: Three.Light) => void
     ) {
-        const d = () => onDay(object, light);
-        const n = () => onNight(object, light);
+        const d = () => onDay(object);
+        const n = () => onNight(object);
 
         this.events.push([d, n]);
     }
