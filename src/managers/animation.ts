@@ -1,9 +1,9 @@
 import * as Three from "three";
 
-export default class Animations {
-    private static instance: Animations = new Animations();
+export default class AnimationManager {
+    private static instance: AnimationManager = new AnimationManager();
 
-    static getInstance(): Animations {
+    static getInstance(): AnimationManager {
         return this.instance;
     }
 

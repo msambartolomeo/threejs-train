@@ -8,7 +8,8 @@ import { createTunnel } from "./models/tunnel";
 import { createBridge } from "./models/bridge";
 import { createLamp } from "./models/lamp";
 import { treePatch } from "./models/tree";
-import Animations from "./animation";
+import AnimationManager from "./managers/animation";
+import LightManager from "./managers/light";
 
 function init(): readonly [Three.Camera, Three.WebGLRenderer, Three.Scene] {
     const camera = new Three.PerspectiveCamera(
@@ -83,12 +84,14 @@ function main() {
     const trees4 = treePatch(new Three.Vector3(401, 37, 400), 20);
     scene.add(trees1, trees2, trees3, trees4);
 
-    const lamp = createLamp();
-    const lamps = placeAlongPath(path, lamp, 7);
+    const lamps = placeAlongPath(path, createLamp, 7);
     lamps.position.setY(38);
     scene.add(lamps);
 
-    const animations = Animations.getInstance();
+    const animationManager = AnimationManager.getInstance();
+    const lightManager = LightManager.getInstance();
+
+    lightManager.switchDay();
 
     const time = new Three.Clock();
 
@@ -97,7 +100,7 @@ function main() {
 
         controls.update();
 
-        animations.run(time.getDelta());
+        animationManager.run(time.getDelta());
 
         requestAnimationFrame(render);
     }

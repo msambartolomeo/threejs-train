@@ -1,6 +1,7 @@
 import * as Three from "three";
 import * as P from "../primitives";
 import * as M from "../materials";
+import LightManager from "../managers/light";
 
 export function createLamp(): Three.Object3D {
     const lamp = P.empty();
@@ -24,5 +25,21 @@ export function createLamp(): Three.Object3D {
     const light = new Three.PointLight(0xfcf9d9, 1, 150, 0.1);
     bulb.add(light);
 
+    const lightManager = LightManager.getInstance();
+
+    lightManager.add(bulb as Three.Mesh, light, turnOffLight, turnOnLight);
+
+    // turnOffLight(bulb as Three.Mesh, light);
+
     return lamp;
+}
+
+function turnOffLight(object: Three.Mesh, light: Three.Light) {
+    light.intensity = 0;
+    object.material = M.LIGHT_OFF;
+}
+
+function turnOnLight(object: Three.Mesh, light: Three.Light) {
+    light.intensity = 1;
+    object.material = M.LIGHT_ON;
 }

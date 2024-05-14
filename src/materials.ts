@@ -60,3 +60,10 @@ export const LIGHT_ON = new Three.MeshPhongMaterial({
     color: 0xfcf9d9,
     shininess: 10000,
 });
+
+export const LIGHT_OFF = new Three.MeshPhongMaterial({
+    color: 0x668186,
+    transparent: true,
+    opacity: 0.6,
+    shininess: 200,
+});

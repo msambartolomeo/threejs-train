@@ -1,6 +1,6 @@
 import * as Three from "three";
 import * as P from "./primitives";
-import Animations from "./animation";
+import AnimationManager from "./managers/animation";
 
 export function build_terrain(scene: Three.Scene) {
     const loader = new Three.TextureLoader().setPath("images/maps/terrain/");
@@ -41,7 +41,7 @@ export function build_terrain(scene: Three.Scene) {
     const water = P.plane(1024, waterMaterial);
     water.position.setY(25);
 
-    Animations.getInstance().add(water, 2, animateWater);
+    AnimationManager.getInstance().add(water, 2, animateWater);
 
     scene.add(water);
 }

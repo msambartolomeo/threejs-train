@@ -1,7 +1,8 @@
 import * as Three from "three";
 import * as P from "../primitives";
 import * as M from "../materials";
-import Animations from "../animation";
+import AnimationManager from "../managers/animation";
+import LightManager from "../managers/light";
 
 const TRAIN_SPEED = 20;
 
@@ -71,7 +72,7 @@ export function startTrainOnPath(
         distance += speed * delta;
     }
 
-    const animations = Animations.getInstance();
+    const animations = AnimationManager.getInstance();
 
     animations.add(train, TRAIN_SPEED, moveTrain);
 }
@@ -150,7 +151,7 @@ function createRoof(): Three.Object3D {
 function createWheels(side: number): Three.Object3D {
     const wheels = P.empty();
 
-    const animations = Animations.getInstance();
+    const animations = AnimationManager.getInstance();
 
     const wheel1 = createWheel(side);
     const wheel2 = createWheel(side);
@@ -218,7 +219,21 @@ function createLight(): Three.Object3D {
     light.target = target;
     holder.add(light);
 
+    const lightManager = LightManager.getInstance();
+
+    lightManager.add(bulb as Three.Mesh, light, turnOffLight, turnOnLight);
+
     return holder;
+}
+
+function turnOffLight(object: Three.Mesh, light: Three.Light) {
+    light.intensity = 0;
+    object.material = M.LIGHT_OFF;
+}
+
+function turnOnLight(object: Three.Mesh, light: Three.Light) {
+    light.intensity = 10;
+    object.material = M.LIGHT_ON;
 }
 
 function rotateWheel(wheel: Three.Object3D, speed: number, delta: number) {
