@@ -49,3 +49,14 @@ export const BRICK = new Three.MeshPhongMaterial({
     color: 0x945d43,
     shininess: 50,
 });
+
+export const LAMP = new Three.MeshPhongMaterial({
+    color: 0x1e1e1e,
+    shininess: 70,
+});
+
+export const LIGHT_ON = new Three.MeshPhongMaterial({
+    emissive: 0xfff9a0,
+    color: 0xfcf9d9,
+    shininess: 10000,
+});

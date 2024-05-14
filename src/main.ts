@@ -1,11 +1,12 @@
 import * as Three from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { build_terrain } from "./terrain";
-import { trainPath } from "./path";
+import { placeAlongPath, trainPath } from "./path";
 import { createRailway } from "./models/rail";
 import { createTrain, startTrainOnPath } from "./models/train";
 import { createTunnel } from "./models/tunnel";
 import { createBridge } from "./models/bridge";
+import { createLamp } from "./models/lamp";
 import { treePatch } from "./models/tree";
 import Animations from "./animation";
 
@@ -35,14 +36,14 @@ function init(): readonly [Three.Camera, Three.WebGLRenderer, Three.Scene] {
 
     build_terrain(scene);
 
-    const ambientLight = new Three.AmbientLight("white", 0.5);
-    scene.add(ambientLight);
+    // const ambientLight = new Three.AmbientLight("white", 0.5);
+    // scene.add(ambientLight);
 
-    const directionaLight = new Three.DirectionalLight("white", 2);
-    directionaLight.position.set(0, 1, 0);
-    directionaLight.target.position.set(2, 0, 2);
-    scene.add(directionaLight.target);
-    scene.add(directionaLight);
+    // const directionaLight = new Three.DirectionalLight("white", 2);
+    // directionaLight.position.set(0, 1, 0);
+    // directionaLight.target.position.set(2, 0, 2);
+    // scene.add(directionaLight.target);
+    // scene.add(directionaLight);
 
     return [camera, renderer, scene];
 }
@@ -72,10 +73,8 @@ function main() {
     bridge.position.setY(46);
     scene.add(bridge);
 
-    const animations = Animations.getInstance();
-
-    const point = path.getPointAt(0.76);
-    camera.position.set(point.x + 50, 70, point.z + 50);
+    const point = path.getPointAt(0);
+    camera.position.set(point.x, 50, point.z + 30);
     controls.target.set(point.x, 46, point.z);
 
     const trees1 = treePatch(new Three.Vector3(366, 37, -115), 12);
@@ -83,6 +82,13 @@ function main() {
     const trees3 = treePatch(new Three.Vector3(445, 37, 102), 8);
     const trees4 = treePatch(new Three.Vector3(401, 37, 400), 20);
     scene.add(trees1, trees2, trees3, trees4);
+
+    const lamp = createLamp();
+    const lamps = placeAlongPath(path, lamp, 7);
+    lamps.position.setY(38);
+    scene.add(lamps);
+
+    const animations = Animations.getInstance();
 
     const time = new Three.Clock();
 
