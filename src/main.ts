@@ -1,5 +1,7 @@
 import * as Three from "three";
+import * as P from "./primitives";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+import { FirstPersonControls } from "three/addons/controls/FirstPersonControls.js";
 import { build_terrain } from "./terrain";
 import { placeAlongPath, trainPath } from "./path";
 import { createRailway } from "./models/rail";
@@ -10,26 +12,15 @@ import { createLamp } from "./models/lamp";
 import { treePatch } from "./models/tree";
 import { createSun } from "./models/sun";
 import AnimationManager from "./managers/animation";
+import KeyboardManager from "./managers/keyboard";
 import LightManager from "./managers/light";
+import CameraManager from "./managers/camera";
 
-function init(): readonly [Three.Camera, Three.WebGLRenderer, Three.Scene] {
-    const camera = new Three.PerspectiveCamera(
-        60,
-        window.innerWidth / window.innerHeight,
-        0.1,
-        2000
-    );
-
+function init(): readonly [CameraManager, Three.Scene] {
     const renderer = new Three.WebGLRenderer();
     renderer.setClearColor(0xa8bbe6, 1.0);
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
-
-    window.addEventListener("resize", () => {
-        camera.aspect = window.innerWidth / window.innerHeight;
-        camera.updateProjectionMatrix();
-        renderer.setSize(window.innerWidth, window.innerHeight);
-    });
 
     const lightManager = LightManager.getInstance();
 
@@ -41,8 +32,21 @@ function init(): readonly [Three.Camera, Three.WebGLRenderer, Three.Scene] {
 
     const scene = new Three.Scene();
 
-    // TODO: Cleanup
-    camera.position.set(0, 400, 0);
+    const cameraManager = new CameraManager(renderer, scene);
+
+    const orbitalCamera = P.camera();
+    orbitalCamera.position.set(-250, 100, 300);
+    const orbitControls = new OrbitControls(orbitalCamera, renderer.domElement);
+    cameraManager.add(orbitalCamera, "1", orbitControls);
+
+    const fpsCamera = P.camera();
+    fpsCamera.position.set(400, 45, 0);
+    fpsCamera.rotation.y = Math.PI / 2;
+    const fpsControls = new FirstPersonControls(fpsCamera, renderer.domElement);
+    fpsControls.movementSpeed = 30;
+    fpsControls.lookVertical = false;
+    fpsControls.lookSpeed = 0.1;
+    cameraManager.add(fpsCamera, "6", fpsControls);
 
     build_terrain(scene);
 
@@ -62,13 +66,11 @@ function init(): readonly [Three.Camera, Three.WebGLRenderer, Three.Scene] {
         (l) => (l.intensity = 0.5)
     );
 
-    return [camera, renderer, scene];
+    return [cameraManager, scene];
 }
 
 function main() {
-    const [camera, renderer, scene] = init();
-
-    const controls = new OrbitControls(camera, renderer.domElement);
+    const [cameraManager, scene] = init();
 
     const sun = createSun();
     scene.add(sun);
@@ -93,10 +95,6 @@ function main() {
     bridge.position.setY(46);
     scene.add(bridge);
 
-    const point = path.getPointAt(0);
-    camera.position.set(point.x, 50, point.z + 30);
-    controls.target.set(point.x, 46, point.z);
-
     const trees: Array<[Three.Vector3, number]> = [
         [new Three.Vector3(366, 37, -115), 12],
         [new Three.Vector3(368, 37, -11), 11],
@@ -111,23 +109,23 @@ function main() {
     scene.add(lamps);
 
     const animationManager = AnimationManager.getInstance();
-    const lightManager = LightManager.getInstance();
 
-    lightManager.switchDay();
+    LightManager.getInstance().switchDay();
+
+    KeyboardManager.getInstance().setupKeyControls();
 
     const time = new Three.Clock();
 
-    function render() {
-        renderer.render(scene, camera);
+    function loop() {
+        const delta = time.getDelta();
+        cameraManager.render(delta);
 
-        controls.update();
+        animationManager.run(delta);
 
-        animationManager.run(time.getDelta());
-
-        requestAnimationFrame(render);
+        requestAnimationFrame(loop);
     }
 
-    render();
+    loop();
 }
 
 window.onload = main;

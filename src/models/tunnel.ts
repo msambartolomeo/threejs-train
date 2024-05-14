@@ -1,5 +1,7 @@
 import * as Three from "three";
 import * as M from "../materials";
+import * as P from "../primitives";
+import CameraManager from "../managers/camera";
 
 export function createTunnel(): Three.Object3D {
     const shape = new Three.Shape();
@@ -21,5 +23,12 @@ export function createTunnel(): Three.Object3D {
         bevelEnabled: false,
     });
 
-    return new Three.Mesh(geometry, M.WOOD);
+    const tunnel = new Three.Mesh(geometry, M.WOOD);
+
+    const camera = P.camera();
+    camera.rotation.y = Math.PI;
+    tunnel.add(camera);
+    CameraManager.getInstance().add(camera, "4");
+
+    return tunnel;
 }

@@ -3,6 +3,7 @@ import * as P from "../primitives";
 import * as M from "../materials";
 import AnimationManager from "../managers/animation";
 import LightManager from "../managers/light";
+import CameraManager from "../managers/camera";
 
 const TRAIN_SPEED = 20;
 
@@ -45,6 +46,20 @@ export function createTrain(): Three.Object3D {
     const light = createLight();
     light.position.setX(-6.25);
     train.add(light);
+
+    const cameraManager = CameraManager.getInstance();
+
+    const frontCamera = P.camera();
+    frontCamera.position.setY(6);
+    frontCamera.rotation.y = Math.PI / 2;
+    cabin.add(frontCamera);
+    cameraManager.add(frontCamera, "2");
+
+    const backCamera = frontCamera.clone();
+    backCamera.position.setX(-1);
+    backCamera.rotation.y = -Math.PI / 2;
+    cabin.add(backCamera);
+    cameraManager.add(backCamera, "3");
 
     return train;
 }

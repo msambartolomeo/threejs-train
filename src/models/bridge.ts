@@ -1,6 +1,7 @@
 import * as Three from "three";
 import * as M from "../materials";
 import * as P from "../primitives";
+import CameraManager from "../managers/camera";
 
 const SECTION_LENGTH = 12;
 const VERTICAL_LENGTH = 24;
@@ -18,6 +19,11 @@ export function createBridge(size: number): Three.Object3D {
     const section = createSection(true);
     section.position.setX(-(size - 1) * SECTION_LENGTH);
     bridge.add(section);
+
+    const camera = P.camera();
+    camera.rotation.y = Math.PI / 2;
+    bridge.add(camera);
+    CameraManager.getInstance().add(camera, "5");
 
     return bridge;
 }

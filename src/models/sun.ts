@@ -3,6 +3,7 @@ import * as P from "../primitives";
 import * as M from "../materials";
 import LightManager from "../managers/light";
 import AnimationManager from "../managers/animation";
+import KeyboardManager from "../managers/keyboard";
 
 const DAY_SPEED = 10;
 const ORBIT_RADIUS = 1000;
@@ -17,15 +18,19 @@ export function createSun(): Three.Object3D {
 
     const lightManager = LightManager.getInstance();
 
+    let angle = 0;
+
     lightManager.add(
         [sun, directionaLight],
         ([s, l]) => {
-            s.position.setX(ORBIT_RADIUS);
+            angle = 0;
+            s.position.set(ORBIT_RADIUS, 0, -500);
             s.visible = true;
             l.intensity = 2;
         },
         ([s, l]) => {
-            s.position.setX(-ORBIT_RADIUS);
+            s.position.set(-ORBIT_RADIUS, 0, -500);
+            angle = Math.PI;
             s.visible = false;
             l.intensity = 0;
         }
@@ -33,8 +38,6 @@ export function createSun(): Three.Object3D {
 
     const START_HUE = 25;
     const END_HUE = 45;
-
-    let angle = 0;
 
     function moveSun(sun: Three.Mesh, speed: number, delta: number) {
         if (angle > 2 * Math.PI) {
@@ -58,14 +61,25 @@ export function createSun(): Three.Object3D {
 
         const hue = START_HUE + Math.sin(angle) * (END_HUE - START_HUE);
 
-        console.log(hue);
-
         material.emissive.setHSL(hue / 360, 0.7, 0.55);
+        directionaLight.color.setHSL(hue / 360, 0.7, 0.55);
     }
 
     const animations = AnimationManager.getInstance();
 
     animations.add(sun, DAY_SPEED, moveSun as any);
 
+    const keyboard = KeyboardManager.getInstance();
+
+    keyboard.add("d", () => change(angle, lightManager));
+
     return sun;
+}
+
+function change(angle: number, manager: LightManager) {
+    if (angle < Math.PI) {
+        manager.switchNight();
+    } else {
+        manager.switchDay();
+    }
 }

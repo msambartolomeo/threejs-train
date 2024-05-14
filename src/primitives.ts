@@ -1,5 +1,14 @@
 import * as Three from "three";
 
+export function camera(): Three.PerspectiveCamera {
+    return new Three.PerspectiveCamera(
+        60,
+        window.innerWidth / window.innerHeight,
+        0.1,
+        2000
+    );
+}
+
 export function empty(): Three.Object3D {
     return new Three.Object3D();
 }
