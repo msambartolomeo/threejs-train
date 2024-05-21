@@ -23,6 +23,7 @@ export function createLamp(): Three.Object3D {
     lamp.add(bulb);
 
     const light = new Three.PointLight(0xfcf9d9, 1, 150, 0.1);
+    light.castShadow = true;
     bulb.add(light);
 
     const lightManager = LightManager.getInstance();

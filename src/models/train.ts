@@ -231,6 +231,7 @@ function createLight(): Three.Object3D {
     holder.add(target);
 
     const light = new Three.SpotLight(0xfcf9d9, 10, 250, undefined, 1, 0.2);
+    light.castShadow = true;
     light.target = target;
     holder.add(light);
 

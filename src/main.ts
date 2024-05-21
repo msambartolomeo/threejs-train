@@ -20,6 +20,9 @@ function init(): readonly [CameraManager, Three.Scene] {
     const renderer = new Three.WebGLRenderer();
     renderer.setClearColor(0xa8bbe6, 1.0);
     renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = Three.PCFSoftShadowMap;
+
     document.body.appendChild(renderer.domElement);
 
     const lightManager = LightManager.getInstance();

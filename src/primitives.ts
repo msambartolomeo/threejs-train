@@ -104,5 +104,10 @@ function create(
 ): Three.Object3D {
     const geometry = new constructor(...args);
 
-    return new Three.Mesh(geometry, material);
+    const mesh = new Three.Mesh(geometry, material);
+
+    mesh.castShadow = true;
+    mesh.receiveShadow = true;
+
+    return mesh;
 }
