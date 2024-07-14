@@ -18,6 +18,9 @@ export function build_terrain(scene: Three.Scene) {
 
     const terrain = P.plane(1024, groundMaterial, 256);
 
+    terrain.receiveShadow = true;
+    terrain.castShadow = false;
+
     terrain.rotation.x = -Math.PI / 2;
 
     scene.add(terrain);
@@ -41,6 +44,10 @@ export function build_terrain(scene: Three.Scene) {
     }
 
     const water = P.plane(1024, waterMaterial);
+
+    water.receiveShadow = true;
+    water.castShadow = false;
+
     water.position.setY(25);
 
     AnimationManager.getInstance().add(water, 2, animateWater);

@@ -13,6 +13,16 @@ export function createSun(): Three.Object3D {
     const sun = P.sphere(100, material);
 
     const directionaLight = new Three.DirectionalLight("white", 2);
+    directionaLight.castShadow = true;
+    directionaLight.shadow.mapSize.width = 1024*4;
+    directionaLight.shadow.mapSize.height = 1024*4;
+    directionaLight.shadow.camera.near = 400;
+    directionaLight.shadow.camera.far = 1800;
+    directionaLight.shadow.camera.top = 500;
+    directionaLight.shadow.camera.bottom = -500;
+    directionaLight.shadow.camera.left = 800;
+    directionaLight.shadow.camera.right = -800;
+    // scene.add(new Three.CameraHelper(directionaLight.shadow.camera)); //debug
     sun.add(directionaLight);
     sun.position.set(ORBIT_RADIUS, 0, -500);
 

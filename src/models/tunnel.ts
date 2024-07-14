@@ -25,6 +25,8 @@ export function createTunnel(): Three.Object3D {
 
     const tunnel = new Three.Mesh(geometry, M.WOOD);
 
+    tunnel.castShadow = true
+
     const camera = P.camera();
     camera.rotation.y = Math.PI;
     tunnel.add(camera);

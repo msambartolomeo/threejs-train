@@ -119,6 +119,7 @@ function createSupport(): Three.Object3D {
     });
 
     const support = new Three.Mesh(geometry, M.BRICK);
+    support.castShadow = true;
     support.position.setZ(-D / 2);
     return support;
 }

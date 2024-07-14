@@ -15,6 +15,13 @@ export function createRailway(
     const rail2 = createRail(path, -1.5);
     const earthwork = createEarthwork(path);
 
+    rail1.castShadow = true;
+    rail2.castShadow = true;
+    rail1.receiveShadow = true;
+    rail2.receiveShadow = true;
+    earthwork.receiveShadow = true;
+    earthwork.castShadow = true;
+
     rail1.position.setY(4.5);
     rail2.position.setY(4.5);
 
@@ -26,7 +33,7 @@ export function createRailway(
 function createRail(
     path: Three.CurvePath<Three.Vector3>,
     offset: number
-): Three.Object3D {
+): Three.Mesh {
     const railShape = new Three.Shape();
 
     const sign = Math.sign(offset);
@@ -54,7 +61,7 @@ function createRail(
     return new Three.Mesh(geometry, M.METAL);
 }
 
-function createEarthwork(path: Three.CurvePath<Three.Vector3>): Three.Object3D {
+function createEarthwork(path: Three.CurvePath<Three.Vector3>): Three.Mesh {
     const earthworkShape = new Three.Shape();
 
     earthworkShape.moveTo(0, -10);

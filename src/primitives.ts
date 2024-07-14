@@ -107,7 +107,6 @@ function create(
     const mesh = new Three.Mesh(geometry, material);
 
     mesh.castShadow = true;
-    mesh.receiveShadow = true;
 
     return mesh;
 }

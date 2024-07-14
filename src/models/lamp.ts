@@ -16,14 +16,17 @@ export function createLamp(): Three.Object3D {
 
     const holder = P.polygon(1.5, 1, 5, M.LAMP);
     holder.position.setY(20);
+    holder.castShadow = false;
     lamp.add(holder);
 
     const bulb = P.sphere(1.75, M.LIGHT_ON);
     bulb.position.setY(22);
+    bulb.castShadow = false;
     lamp.add(bulb);
 
     const light = new Three.PointLight(0xfcf9d9, 1, 150, 0.1);
     light.castShadow = true;
+    light.position.setY(5);
     bulb.add(light);
 
     const lightManager = LightManager.getInstance();
