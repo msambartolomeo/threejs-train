@@ -1,5 +1,10 @@
 import * as Three from "three";
 import * as M from "../materials";
+import * as P from "../primitives";
+
+export function createSleeper() {
+    return P.box(3, 1, 10, M.WOOD);
+}
 
 export function createRailway(
     path: Three.CurvePath<Three.Vector3>
@@ -10,8 +15,8 @@ export function createRailway(
     const rail2 = createRail(path, -1.5);
     const earthwork = createEarthwork(path);
 
-    rail1.position.setY(4);
-    rail2.position.setY(4);
+    rail1.position.setY(4.5);
+    rail2.position.setY(4.5);
 
     railway.add(earthwork, rail1, rail2);
 

@@ -4,7 +4,7 @@ import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { FirstPersonControls } from "three/addons/controls/FirstPersonControls.js";
 import { build_terrain } from "./terrain";
 import { placeAlongPath, trainPath } from "./path";
-import { createRailway } from "./models/rail";
+import { createRailway, createSleeper } from "./models/rail";
 import { createTrain, startTrainOnPath } from "./models/train";
 import { createTunnel } from "./models/tunnel";
 import { createBridge } from "./models/bridge";
@@ -84,6 +84,10 @@ function main() {
     railway.position.setY(37);
     scene.add(railway);
 
+    const sleepers = placeAlongPath(path, createSleeper, 200);
+    sleepers.position.setY(41);
+    scene.add(sleepers);
+
     const train = createTrain();
     scene.add(train);
     startTrainOnPath(train, path);
@@ -107,7 +111,7 @@ function main() {
 
     trees.forEach(([p, c]) => scene.add(treePatch(p, c)));
 
-    const lamps = placeAlongPath(path, createLamp, 7);
+    const lamps = placeAlongPath(path, createLamp, 7, 13);
     lamps.position.setY(38);
     scene.add(lamps);
 

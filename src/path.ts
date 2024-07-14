@@ -100,7 +100,8 @@ export function trainPath(): Three.CurvePath<Three.Vector3> {
 export function placeAlongPath(
     path: Three.CurvePath<Three.Vector3>,
     factory: () => Three.Object3D,
-    count: number
+    count: number,
+    offset: number = 0
 ): Three.Object3D {
     const holder = new Three.Object3D();
 
@@ -113,10 +114,13 @@ export function placeAlongPath(
         const point = path.getPointAt(distance);
         const tangent = path.getTangentAt(distance);
 
+        const rotation = Math.atan2(tangent.x, tangent.z);
+
         sign *= -1;
 
-        object.position.setX(point.x + tangent.z * 13 * sign);
-        object.position.setZ(point.z - tangent.x * 13 * sign);
+        object.position.setX(point.x + tangent.z * offset * sign);
+        object.position.setZ(point.z - tangent.x * offset * sign);
+        object.rotation.y = rotation + Math.PI / 2;
 
         holder.add(object);
     }

@@ -81,7 +81,7 @@ export function startTrainOnPath(
         const tangent = path.getTangent(distance / maxLength);
         const rotation = Math.atan2(tangent.x, tangent.z);
 
-        train.position.set(point.x, 47, point.z);
+        train.position.set(point.x, 47.5, point.z);
         train.rotation.y = rotation + Math.PI / 2;
 
         distance += speed * delta;
