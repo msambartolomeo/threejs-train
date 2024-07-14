@@ -44,7 +44,6 @@ export const RUBBER = new Three.MeshPhysicalMaterial({
     // shininess: 0,
 });
 
-
 export const METAL = new Three.MeshPhysicalMaterial({
     map: metal_loader("texture.jpg"),
     normalMap: metal_loader("normal.jpg"),
@@ -123,6 +122,17 @@ export const LAMP = new Three.MeshPhysicalMaterial({
     metalnessMap: metal_loader("metallic.jpg"),
     color: 0x1e1e1e,
     // shininess: 70,
+});
+
+const stone_loader = loader("stone", 0.05, 0.05, Math.PI / 2);
+
+export const STONE = new Three.MeshPhysicalMaterial({
+    map: stone_loader("texture.jpg"),
+    normalMap: stone_loader("normal.jpg"),
+    normalScale: new Three.Vector2(10, 10),
+    aoMap: stone_loader("ao.jpg"),
+    roughnessMap: stone_loader("roughness.jpg"),
+    metalnessMap: stone_loader("metallic.jpg"),
 });
 
 export const LIGHT_ON = new Three.MeshPhongMaterial({

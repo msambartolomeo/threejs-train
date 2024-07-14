@@ -23,7 +23,7 @@ export function createTunnel(): Three.Object3D {
         bevelEnabled: false,
     });
 
-    const tunnel = new Three.Mesh(geometry, M.WOOD);
+    const tunnel = new Three.Mesh(geometry, M.STONE);
 
     tunnel.castShadow = true
 
