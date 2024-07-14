@@ -5,12 +5,12 @@ import * as M from "../materials";
 export function createTree(size: number, material: number): Three.Object3D {
     const tree = P.empty();
 
-    const log = P.cone(1, 10, M.WOOD);
+    const log = P.cone(1, 10, M.WOOD, false);
     log.position.y = 4;
 
-    const leaf1 = P.sphere(2.5, M.LEAVES[material % M.LEAVES.length]);
-    const leaf2 = P.sphere(2.5, M.LEAVES[material % M.LEAVES.length]);
-    const leaf3 = P.sphere(2, M.LEAVES[material % M.LEAVES.length]);
+    const leaf1 = P.sphere(2.5, M.LEAVES[material % M.LEAVES.length], false);
+    const leaf2 = P.sphere(2.5, M.LEAVES[material % M.LEAVES.length], false);
+    const leaf3 = P.sphere(2, M.LEAVES[material % M.LEAVES.length], false);
 
     leaf1.position.set(1, 7, -1);
     leaf2.position.set(-1, 6, 0);

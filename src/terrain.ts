@@ -10,38 +10,25 @@ export function build_terrain(scene: Three.Scene) {
     const loader = new Three.TextureLoader().setPath("images/maps/");
 
     const heightMap = loader.load("terrain/height.png");
-    const normalMap = loader.load("terrain/normal.png");
-
-    // const groundMaterial = new Three.MeshPhongMaterial({
-    //     color: 0x1d5121,
-    //     displacementMap: heightMap,
-    //     normalMap: normalMap,
-    //     displacementScale: 200,
-    //     shininess: 15,
-    // });
 
     const groundMaterial = new CustomShaderMaterial({
         baseMaterial: Three.MeshPhysicalMaterial,
         vertexShader: vertexShader,
         fragmentShader: fragmentShader,
         uniforms: {
-            texture1: { value: loader.load("gravel/texture.jpg") },
-            texture2: { value: loader.load("sleeper/texture.jpg") },
-            texture3: { value: loader.load("metal/texture.jpg") },
-            normal1: { value: loader.load("gravel/normal.jpg") },
-            normal2: { value: loader.load("sleeper/normal.jpg") },
-            normal3: { value: loader.load("metal/normal.jpg") },
-            startThreshold1: { value: 0.15 },
-            endThreshold1: { value: 0.2 },
-            startThreshold2: { value: 0.35 },
-            endThreshold2: { value: 0.5 },
-            repeat1: {value: [64, 64]},
-            repeat2: {value: [64, 64]},
-            repeat3: {value: [64, 64]}
+            texture1: { value: loader.load("sand/texture.jpg") },
+            texture2: { value: loader.load("grass/texture.jpg") },
+            texture3: { value: loader.load("snow/texture.jpg") },
+            startThreshold1: { value: 0.1 },
+            endThreshold1: { value: 0.185 },
+            startThreshold2: { value: 0.3 },
+            endThreshold2: { value: 0.45 },
+            repeat1: { value: [64, 64] },
+            repeat2: { value: [64, 64] },
+            repeat3: { value: [64, 64] },
         },
         displacementMap: heightMap,
         displacementScale: 200,
-        // normalMap: normalMap,
     });
 
     const terrain = P.plane(1024, groundMaterial, 256, false);

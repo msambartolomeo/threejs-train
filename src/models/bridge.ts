@@ -2,6 +2,7 @@ import * as Three from "three";
 import * as M from "../materials";
 import * as P from "../primitives";
 import CameraManager from "../managers/camera";
+import { resetUVs } from "../textures";
 
 const SECTION_LENGTH = 12;
 const VERTICAL_LENGTH = 24;
@@ -119,6 +120,7 @@ function createSupport(): Three.Object3D {
     });
 
     const support = new Three.Mesh(geometry, M.BRICK);
+    resetUVs(support)
     support.castShadow = true;
     support.position.setZ(-D / 2);
     return support;
