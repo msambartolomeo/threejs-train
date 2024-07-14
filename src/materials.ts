@@ -1,13 +1,21 @@
 import * as Three from "three";
+import { loader } from "./textures";
 
 export const TRAIN = new Three.MeshPhongMaterial({
     color: 0x7e1414,
     shininess: 100,
 });
 
-export const GROUND = new Three.MeshPhongMaterial({
-    color: 0x665647,
-    shininess: 15,
+const gravel_loader = loader("gravel", 1, 1);
+
+export const GROUND = new Three.MeshPhysicalMaterial({
+    map: gravel_loader("texture.jpg"),
+    normalMap: gravel_loader("normal.jpg"),
+    normalScale: new Three.Vector2(10, 10),
+    aoMap: gravel_loader("ao.jpg"),
+    roughnessMap: gravel_loader("roughtness.jpg"),
+    color: 0xaaaaaa,
+    // shininess: 15,
 });
 
 export const PLASTIC = new Three.MeshPhongMaterial({
@@ -20,9 +28,17 @@ export const RUBBER = new Three.MeshPhongMaterial({
     shininess: 0,
 });
 
-export const METAL = new Three.MeshPhongMaterial({
-    color: "silver",
-    shininess: 400,
+const metal_loader = loader("metal", 1, 1);
+
+export const METAL = new Three.MeshPhysicalMaterial({
+    map: metal_loader("texture.jpg"),
+    normalMap: metal_loader("normal.jpg"),
+    normalScale: new Three.Vector2(10, 10),
+    aoMap: metal_loader("ao.jpg"),
+    roughnessMap: metal_loader("roughtness.jpg"),
+    metalnessMap: metal_loader("metallic.jpg")
+    // color: "silver",
+    // shininess: 400,
 });
 
 export const WOOD = new Three.MeshPhongMaterial({
@@ -72,4 +88,15 @@ export const LIGHT_OFF = new Three.MeshPhongMaterial({
     transparent: true,
     opacity: 0.6,
     shininess: 200,
+});
+
+const sleeper_loader = loader("sleeper", 0.7, 0.7);
+
+export const SLEEPER = new Three.MeshPhysicalMaterial({
+    map: sleeper_loader("texture.jpg"),
+    normalMap: sleeper_loader("normal.jpg"),
+    normalScale: new Three.Vector2(10, 10),
+    aoMap: sleeper_loader("ao.jpg"),
+    roughnessMap: sleeper_loader("roughtness.jpg"),
+    // shininess: 10,
 });

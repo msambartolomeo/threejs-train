@@ -16,7 +16,7 @@ export function build_terrain(scene: Three.Scene) {
         shininess: 15,
     });
 
-    const terrain = P.plane(1024, groundMaterial, 256);
+    const terrain = P.plane(1024, groundMaterial, 256, false);
 
     terrain.receiveShadow = true;
     terrain.castShadow = false;
@@ -43,7 +43,7 @@ export function build_terrain(scene: Three.Scene) {
         }
     }
 
-    const water = P.plane(1024, waterMaterial);
+    const water = P.plane(1024, waterMaterial, 256, false);
 
     water.receiveShadow = true;
     water.castShadow = false;

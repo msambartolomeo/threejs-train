@@ -1,9 +1,10 @@
 import * as Three from "three";
 import * as M from "../materials";
 import * as P from "../primitives";
+import { resetUVs } from "../textures";
 
 export function createSleeper() {
-    return P.box(3, 1, 10, M.WOOD);
+    return P.box(3, 1, 10, M.SLEEPER);
 }
 
 export function createRailway(
@@ -15,11 +16,12 @@ export function createRailway(
     const rail2 = createRail(path, -1.5);
     const earthwork = createEarthwork(path);
 
+    resetUVs(rail1)
+    resetUVs(rail2)
+    resetUVs(earthwork)
+
     rail1.castShadow = true;
     rail2.castShadow = true;
-    rail1.receiveShadow = true;
-    rail2.receiveShadow = true;
-    earthwork.receiveShadow = true;
     earthwork.castShadow = true;
 
     rail1.position.setY(4.5);
