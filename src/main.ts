@@ -27,13 +27,33 @@ function init(): readonly [CameraManager, Three.Scene] {
 
     const lightManager = LightManager.getInstance();
 
-    lightManager.add(
-        renderer,
-        (r) => r.setClearColor(0xa8bbe6, 1.0),
-        (r) => r.setClearColor(0x17181f, 1.0)
-    );
-
     const scene = new Three.Scene();
+
+    const loader = new Three.CubeTextureLoader();
+    const day = loader.load([
+        "images/skybox/day/px.png",
+        "images/skybox/day/nx.png",
+        "images/skybox/day/py.png",
+        "images/skybox/day/ny.png",
+        "images/skybox/day/pz.png",
+        "images/skybox/day/nz.png",
+    ]);
+
+    const night = loader.load([
+        "images/skybox/night/px.png",
+        "images/skybox/night/nx.png",
+        "images/skybox/night/py.png",
+        "images/skybox/night/ny.png",
+        "images/skybox/night/pz.png",
+        "images/skybox/night/nz.png",
+    ]);
+
+    scene.background = day;
+    lightManager.add(
+        scene,
+        (s) => (s.background = day),
+        (s) => (s.background = night)
+    );
 
     const cameraManager = new CameraManager(renderer, scene);
 
